@@ -8,7 +8,7 @@ Subject: [PATCH] FindTclsh cygport
  1 file changed, 7 deletions(-)
 
 diff --git a/Modules/FindTclsh.cmake b/Modules/FindTclsh.cmake
-index e3bd11040b..eb623917a8 100644
+index 82be473b19..f306d5b78f 100644
 --- a/Modules/FindTclsh.cmake
 +++ b/Modules/FindTclsh.cmake
 @@ -15,15 +15,8 @@ library is.  This code sets the following variables:

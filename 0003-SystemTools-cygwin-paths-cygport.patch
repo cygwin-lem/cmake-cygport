@@ -4,15 +4,15 @@ Date: Tue, 14 Jul 2020 22:33:03 +0900
 Subject: [PATCH] SystemTools cygwin paths cygport
 
 ---
- Source/kwsys/SystemTools.cxx    | 32 ++++----------------------------
- Source/kwsys/SystemTools.hxx.in | 11 -----------
- 2 files changed, 4 insertions(+), 39 deletions(-)
+ Source/kwsys/SystemTools.cxx    | 23 ++++-------------------
+ Source/kwsys/SystemTools.hxx.in |  8 --------
+ 2 files changed, 4 insertions(+), 27 deletions(-)
 
 diff --git a/Source/kwsys/SystemTools.cxx b/Source/kwsys/SystemTools.cxx
-index d8904fed73..8c4351b63c 100644
+index 2135913f5a..72b82de42c 100644
 --- a/Source/kwsys/SystemTools.cxx
 +++ b/Source/kwsys/SystemTools.cxx
-@@ -96,19 +96,12 @@
+@@ -97,19 +97,12 @@
  #  if defined(_MSC_VER) && _MSC_VER >= 1800
  #    define KWSYS_WINDOWS_DEPRECATED_GetVersionEx
  #  endif
@@ -32,7 +32,7 @@ index d8904fed73..8c4351b63c 100644
  // getpwnam doesn't exist on Windows and Cray Xt3/Catamount
  // same for TIOCGWINSZ
  #if defined(_WIN32) || defined(__LIBCATAMOUNT__) ||                           \
-@@ -1163,15 +1156,7 @@ bool SystemTools::PathExists(const std::string& path)
+@@ -1298,15 +1291,7 @@ bool SystemTools::PathExists(const std::string& path)
    if (path.empty()) {
      return false;
    }
@@ -49,7 +49,7 @@ index d8904fed73..8c4351b63c 100644
    return (GetFileAttributesW(Encoding::ToWindowsExtendedPath(path).c_str()) !=
            INVALID_FILE_ATTRIBUTES);
  #else
-@@ -1193,7 +1178,7 @@ bool SystemTools::FileExists(const std::string& filename)
+@@ -1328,7 +1313,7 @@ bool SystemTools::FileExists(const std::string& filename)
    if (filename.empty()) {
      return false;
    }
@@ -58,7 +58,7 @@ index d8904fed73..8c4351b63c 100644
    // Convert filename to native windows path if possible.
    char winpath[MAX_PATH];
    if (SystemTools::PathCygwinToWin32(filename.c_str(), winpath)) {
-@@ -1310,7 +1295,7 @@ int SystemTools::Stat(const std::string& path, SystemTools::Stat_t* buf)
+@@ -1445,7 +1430,7 @@ int SystemTools::Stat(const std::string& path, SystemTools::Stat_t* buf)
  #endif
  }
  
@@ -66,51 +66,21 @@ index d8904fed73..8c4351b63c 100644
 +#if 0
  bool SystemTools::PathCygwinToWin32(const char* path, char* win32_path)
  {
-   SystemToolsTranslationMap::iterator i =
-@@ -4055,7 +4040,7 @@ bool SystemTools::FileIsFullPath(const char* in_name)
+   auto itr = SystemTools::Statics->Cyg2Win32Map.find(path);
+@@ -4067,7 +4052,7 @@ bool SystemTools::FileIsFullPath(const char* in_name)
  
- bool SystemTools::FileIsFullPath(const char* in_name, size_t len)
+ bool SystemToolsStatic::FileIsFullPath(const char* in_name, size_t len)
  {
 -#if defined(_WIN32) || defined(__CYGWIN__)
 +#if defined(_WIN32)
    // On Windows, the name must be at least two characters long.
    if (len < 2) {
      return false;
-@@ -4656,9 +4641,6 @@ SystemToolsTranslationMap* SystemTools::TranslationMap;
- SystemToolsPathCaseMap* SystemTools::PathCaseMap;
- SystemToolsEnvMap* SystemTools::EnvMap;
- #endif
--#ifdef __CYGWIN__
--SystemToolsTranslationMap* SystemTools::Cyg2Win32Map;
--#endif
- 
- // SystemToolsManager manages the SystemTools singleton.
- // SystemToolsManager should be included in any translation unit
-@@ -4705,9 +4687,6 @@ void SystemTools::ClassInitialize()
-   SystemTools::PathCaseMap = new SystemToolsPathCaseMap;
-   SystemTools::EnvMap = new SystemToolsEnvMap;
- #endif
--#ifdef __CYGWIN__
--  SystemTools::Cyg2Win32Map = new SystemToolsTranslationMap;
--#endif
- 
- // Add some special translation paths for unix.  These are not added
- // for windows because drive letters need to be maintained.  Also,
-@@ -4760,9 +4739,6 @@ void SystemTools::ClassFinalize()
-   delete SystemTools::PathCaseMap;
-   delete SystemTools::EnvMap;
- #endif
--#ifdef __CYGWIN__
--  delete SystemTools::Cyg2Win32Map;
--#endif
- }
- 
- } // namespace KWSYS_NAMESPACE
 diff --git a/Source/kwsys/SystemTools.hxx.in b/Source/kwsys/SystemTools.hxx.in
-index 1967860ab4..f75a580d86 100644
+index dd1266beea..2a6ebb7f81 100644
 --- a/Source/kwsys/SystemTools.hxx.in
 +++ b/Source/kwsys/SystemTools.hxx.in
-@@ -334,14 +334,6 @@ public:
+@@ -335,14 +335,6 @@ public:
    static int Stat(const char* path, Stat_t* buf);
    static int Stat(const std::string& path, Stat_t* buf);
  
@@ -125,16 +95,6 @@ index 1967860ab4..f75a580d86 100644
  
    /**
     * Return file length
-@@ -995,9 +987,6 @@ private:
-   static std::string GetActualCaseForPathCached(std::string const& path);
-   static SystemToolsPathCaseMap* PathCaseMap;
-   static SystemToolsEnvMap* EnvMap;
--#endif
--#ifdef __CYGWIN__
--  static SystemToolsTranslationMap* Cyg2Win32Map;
- #endif
-   friend class SystemToolsManager;
- };
 -- 
 2.27.0
 
