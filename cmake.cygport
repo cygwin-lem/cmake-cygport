@@ -1,7 +1,7 @@
 inherit emacs qt5
 
 NAME="cmake"
-VERSION=3.14.5
+VERSION=3.14.7
 RELEASE=1
 CATEGORY="Devel"
 SUMMARY="Cross-platform makefile generation system"
@@ -15,7 +15,7 @@ HOMEPAGE="http://www.cmake.org/"
 #SRC_URI="https://github.com/Kitware/CMake/releases/download/v${VERSION}/cmake-${VERSION}.tar.gz"
 
 GIT_REPO="https://github.com/Kitware/CMake"
-GIT_COMMIT="f3e9a6ff62f6f58cd661dd447c22a01c50f6f4ad" # v3.14.5
+GIT_COMMIT="6d01a8e004c5faf2d0b2c3b7c0645ce3726181b6" # v3.14.7
 GIT_BASENAME="${GIT_REPO##*/}"
 SRC_URI="${GIT_REPO}/archive/${GIT_COMMIT}.tar.gz"
 SRC_DIR="${GIT_BASENAME}-${GIT_COMMIT}"
