@@ -9,10 +9,10 @@ Subject: [PATCH] Case sensitivity cygport
  2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/Source/cmInstallCommand.cxx b/Source/cmInstallCommand.cxx
-index dba4bbb301..43f39e10e0 100644
+index c9e6923339..24b791faea 100644
 --- a/Source/cmInstallCommand.cxx
 +++ b/Source/cmInstallCommand.cxx
-@@ -1171,7 +1171,7 @@ bool cmInstallCommand::HandleDirectoryMode(
+@@ -1173,7 +1173,7 @@ bool cmInstallCommand::HandleDirectoryMode(
      } else if (doing == DoingRegex) {
        literal_args += " REGEX \"";
  // Match rules are case-insensitive on some platforms.

@@ -9,7 +9,7 @@ Subject: [PATCH] SystemTools cygwin paths cygport
  2 files changed, 4 insertions(+), 27 deletions(-)
 
 diff --git a/Source/kwsys/SystemTools.cxx b/Source/kwsys/SystemTools.cxx
-index 2135913f5a..72b82de42c 100644
+index ae7a18a8c5..570d88af1c 100644
 --- a/Source/kwsys/SystemTools.cxx
 +++ b/Source/kwsys/SystemTools.cxx
 @@ -97,19 +97,12 @@
@@ -67,7 +67,7 @@ index 2135913f5a..72b82de42c 100644
  bool SystemTools::PathCygwinToWin32(const char* path, char* win32_path)
  {
    auto itr = SystemTools::Statics->Cyg2Win32Map.find(path);
-@@ -4067,7 +4052,7 @@ bool SystemTools::FileIsFullPath(const char* in_name)
+@@ -4072,7 +4057,7 @@ bool SystemTools::FileIsFullPath(const char* in_name)
  
  bool SystemToolsStatic::FileIsFullPath(const char* in_name, size_t len)
  {
