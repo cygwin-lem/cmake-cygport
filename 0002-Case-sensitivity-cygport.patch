@@ -36,7 +36,7 @@ index 20d1a31340..ba700e973c 100644
  #else
        std::string regex = args[i];
 diff --git a/Source/kwsys/Glob.cxx b/Source/kwsys/Glob.cxx
-index 6952d24ae6..22cdb6b9cb 100644
+index 6952d24ae6..5a0b254416 100644
 --- a/Source/kwsys/Glob.cxx
 +++ b/Source/kwsys/Glob.cxx
 @@ -27,7 +27,7 @@
@@ -44,7 +44,7 @@ index 6952d24ae6..22cdb6b9cb 100644
  #include <string.h>
  namespace KWSYS_NAMESPACE {
 -#if defined(_WIN32) || defined(__APPLE__) || defined(__CYGWIN__)
-+#if defined(_WIN32) || defined(__APPLE__) 
++#if defined(_WIN32) || defined(__APPLE__)
  // On Windows and Apple, no difference between lower and upper case
  #  define KWSYS_GLOB_CASE_INDEPENDENT
  #endif

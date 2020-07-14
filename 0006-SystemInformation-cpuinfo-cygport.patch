@@ -4,11 +4,11 @@ Date: Tue, 14 Jul 2020 22:33:06 +0900
 Subject: [PATCH] SystemInformation cpuinfo cygport
 
 ---
- Source/kwsys/SystemInformation.cxx | 52 +++++++++---------------------
- 1 file changed, 16 insertions(+), 36 deletions(-)
+ Source/kwsys/SystemInformation.cxx | 32 ++++++++++++++++--------------
+ 1 file changed, 17 insertions(+), 15 deletions(-)
 
 diff --git a/Source/kwsys/SystemInformation.cxx b/Source/kwsys/SystemInformation.cxx
-index f323efc4b0..6c1f7583f9 100644
+index f323efc4b0..7abe790877 100644
 --- a/Source/kwsys/SystemInformation.cxx
 +++ b/Source/kwsys/SystemInformation.cxx
 @@ -875,7 +875,7 @@ void SystemInformation::RunMemoryCheck()
@@ -70,46 +70,24 @@ index f323efc4b0..6c1f7583f9 100644
    SystemInformation::LongLong memTotal = 0;
    int ierr = GetFieldFromFile("/proc/meminfo", "MemTotal:", memTotal);
    if (ierr) {
-@@ -3731,29 +3722,17 @@ SystemInformationImplementation::GetHostMemoryUsed()
+@@ -3731,6 +3722,16 @@ SystemInformationImplementation::GetHostMemoryUsed()
    GlobalMemoryStatusEx(&statex);
    return (statex.ullTotalPhys - statex.ullAvailPhys) / 1024;
  #  endif
--#elif defined(__linux)
--  // First try to use MemAvailable, but it only works on newer kernels
--  const char* names2[3] = { "MemTotal:", "MemAvailable:", NULL };
--  SystemInformation::LongLong values2[2] = { SystemInformation::LongLong(0) };
--  int ierr = GetFieldsFromFile("/proc/meminfo", names2, values2);
-+#elif defined(__linux) || defined(__CYGWIN__)
-+  const char* names[3] = { "MemTotal:", "MemAvailable:", NULL };
++#elif defined(__CYGWIN__)
++  const char* names[3] = { "MemTotal:", "MemFree:", NULL };
 +  SystemInformation::LongLong values[2] = { SystemInformation::LongLong(0) };
 +  int ierr = GetFieldsFromFile("/proc/meminfo", names, values);
-   if (ierr) {
--    const char* names4[5] = { "MemTotal:", "MemFree:", "Buffers:", "Cached:",
--                              NULL };
--    SystemInformation::LongLong values4[4] = { SystemInformation::LongLong(
--      0) };
--    ierr = GetFieldsFromFile("/proc/meminfo", names4, values4);
--    if (ierr) {
--      return ierr;
++  if (ierr) {
 +    return ierr;
-     }
--    SystemInformation::LongLong& memTotal = values4[0];
--    SystemInformation::LongLong& memFree = values4[1];
--    SystemInformation::LongLong& memBuffers = values4[2];
--    SystemInformation::LongLong& memCached = values4[3];
--    return memTotal - memFree - memBuffers - memCached;
--  }
--  SystemInformation::LongLong& memTotal = values2[0];
--  SystemInformation::LongLong& memAvail = values2[1];
--  return memTotal - memAvail;
++  }
 +  SystemInformation::LongLong &memTotal=values[0];
 +  SystemInformation::LongLong &memFree=values[1];
 +  return memTotal - memFree;
-+
- #elif defined(__APPLE__)
-   SystemInformation::LongLong psz = getpagesize();
-   if (psz < 1) {
-@@ -3795,7 +3774,7 @@ SystemInformationImplementation::GetProcMemoryUsed()
+ #elif defined(__linux)
+   // First try to use MemAvailable, but it only works on newer kernels
+   const char* names2[3] = { "MemTotal:", "MemAvailable:", NULL };
+@@ -3795,7 +3796,7 @@ SystemInformationImplementation::GetProcMemoryUsed()
      return -2;
    }
    return pmc.WorkingSetSize / 1024;
@@ -118,7 +96,7 @@ index f323efc4b0..6c1f7583f9 100644
    SystemInformation::LongLong memUsed = 0;
    int ierr = GetFieldFromFile("/proc/self/status", "VmRSS:", memUsed);
    if (ierr) {
-@@ -3872,7 +3851,8 @@ SystemInformation::LongLong SystemInformationImplementation::GetProcessId()
+@@ -3872,7 +3873,8 @@ SystemInformation::LongLong SystemInformationImplementation::GetProcessId()
  #if defined(_WIN32)
    return GetCurrentProcessId();
  #elif defined(__linux) || defined(__APPLE__) || defined(__OpenBSD__) ||       \
