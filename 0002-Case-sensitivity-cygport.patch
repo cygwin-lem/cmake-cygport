@@ -9,10 +9,10 @@ Subject: [PATCH] Case sensitivity cygport
  2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/Source/cmInstallCommand.cxx b/Source/cmInstallCommand.cxx
-index e511196e86..545a547228 100644
+index d669ed7e9b..d8a40cdb6a 100644
 --- a/Source/cmInstallCommand.cxx
 +++ b/Source/cmInstallCommand.cxx
-@@ -1159,7 +1159,7 @@ bool HandleDirectoryMode(std::vector<std::string> const& args,
+@@ -1158,7 +1158,7 @@ bool HandleDirectoryMode(std::vector<std::string> const& args,
      } else if (doing == DoingRegex) {
        literal_args += " REGEX \"";
  // Match rules are case-insensitive on some platforms.

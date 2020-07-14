@@ -4,16 +4,16 @@ Date: Tue, 14 Jul 2020 22:33:05 +0900
 Subject: [PATCH] FindOpenGL cygport
 
 ---
- Modules/FindOpenGL.cmake | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+ Modules/FindOpenGL.cmake | 14 +-------------
+ 1 file changed, 1 insertion(+), 13 deletions(-)
 
 diff --git a/Modules/FindOpenGL.cmake b/Modules/FindOpenGL.cmake
-index 23bb001de6..1dad5338cc 100644
+index 74392dac3e..e1271d4225 100644
 --- a/Modules/FindOpenGL.cmake
 +++ b/Modules/FindOpenGL.cmake
-@@ -130,14 +130,7 @@ foreach(component ${OpenGL_FIND_COMPONENTS})
-   set(OPENGL_USE_${_COMPONENT} 1)
- endforeach()
+@@ -132,19 +132,7 @@ endforeach()
+ 
+ set(_OpenGL_CACHE_VARS)
  
 -if (CYGWIN)
 -  find_path(OPENGL_INCLUDE_DIR GL/gl.h )
@@ -22,6 +22,11 @@ index 23bb001de6..1dad5338cc 100644
 -  find_library(OPENGL_gl_LIBRARY opengl32 )
 -  find_library(OPENGL_glu_LIBRARY glu32 )
 -
+-  list(APPEND _OpenGL_CACHE_VARS
+-    OPENGL_INCLUDE_DIR
+-    OPENGL_gl_LIBRARY
+-    OPENGL_glu_LIBRARY
+-    )
 -elseif (WIN32)
 +if (WIN32)
  
