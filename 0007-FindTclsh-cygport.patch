@@ -8,23 +8,25 @@ Subject: [PATCH] FindTclsh cygport
  1 file changed, 7 deletions(-)
 
 diff --git a/Modules/FindTclsh.cmake b/Modules/FindTclsh.cmake
-index e3bd11040b..7b7a685991 100644
+index e3bd11040b..eb623917a8 100644
 --- a/Modules/FindTclsh.cmake
 +++ b/Modules/FindTclsh.cmake
-@@ -16,13 +16,6 @@ library is.  This code sets the following variables:
+@@ -15,15 +15,8 @@ library is.  This code sets the following variables:
+ 
    TCLSH_FOUND = TRUE if tclsh has been found
    TCL_TCLSH = the path to the tclsh executable
- 
+-
 -In cygwin, look for the cygwin version first.  Don't look for it later
 -to avoid finding the cygwin version on a Win32 build.
--#]=======================================================================]
--
+ #]=======================================================================]
+ 
 -if(CYGWIN)
 -  find_program(TCL_TCLSH NAMES cygtclsh83 cygtclsh80)
 -endif()
- 
+-
  get_filename_component(TK_WISH_PATH "${TK_WISH}" PATH)
  get_filename_component(TK_WISH_PATH_PARENT "${TK_WISH_PATH}" PATH)
+ string(REGEX REPLACE
 -- 
 2.27.0
 
