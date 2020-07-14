@@ -12,16 +12,40 @@ of your choice. CMake is quite sophisticated: it is possible to support
 complex environments requiring system configuration, pre-processor generation,
 code generation, and template instantiation."
 HOMEPAGE="http://www.cmake.org/"
-SRC_URI="https://github.com/Kitware/CMake/releases/download/v${VERSION}/cmake-${VERSION}.tar.gz"
+#SRC_URI="https://github.com/Kitware/CMake/releases/download/v${VERSION}/cmake-${VERSION}.tar.gz"
+
+GIT_REPO="https://github.com/Kitware/CMake"
+GIT_COMMIT="f3e9a6ff62f6f58cd661dd447c22a01c50f6f4ad" # v3.14.5
+GIT_BASENAME="${GIT_REPO##*/}"
+SRC_URI="${GIT_REPO}/archive/${GIT_COMMIT}.tar.gz"
+SRC_DIR="${GIT_BASENAME}-${GIT_COMMIT}"
+
+BUILD_REQUIRES="\
+  emacs\
+  libQt5Core-devel\
+  libQt5Gui-devel\
+  libbz2-devel\
+  libcurl-devel\
+  libexpat-devel\
+  libncurses-devel\
+  libjsoncpp-devel\
+  libarchive-devel\
+  liblzma-devel\
+  librhash-devel\
+  libuv-devel\
+  libnghttp2-devel\
+  zlib-devel\
+  libzstd-devel\
+"
 
 PATCH_URI="
-	3.6.2-ruby.patch
-	case-sensitivity.patch
-	cygwin-paths.patch
-	perl-libs.patch
-	opengl.patch
-  	cpuinfo.patch
-  	tclsh.patch
+0001-FindRuby-cygport.patch
+0002-Case-sensitivity-cygport.patch
+0003-SystemTools-cygwin-paths-cygport.patch
+0004-FindPerlLibs-cygport.patch
+0005-FindOpenGL-cygport.patch
+0006-SystemInformation-cpuinfo-cygport.patch
+0007-FindTclsh-cygport.patch
 "
 
 PKG_NAMES="${NAME} ${NAME}-gui ${NAME}-doc emacs-cmake"

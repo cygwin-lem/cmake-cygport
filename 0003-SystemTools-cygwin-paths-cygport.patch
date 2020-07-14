@@ -1,6 +1,18 @@
---- origsrc/cmake-3.12.0/Source/kwsys/SystemTools.cxx	2018-07-17 13:29:00.000000000 +0200
-+++ Source/kwsys/SystemTools.cxx	2018-08-09 05:53:52.632872700 +0200
-@@ -92,19 +92,12 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Lemures Lemniscati <lemures.lemniscati@gmail.com>
+Date: Tue, 14 Jul 2020 22:33:03 +0900
+Subject: [PATCH] SystemTools cygwin paths cygport
+
+---
+ Source/kwsys/SystemTools.cxx    | 32 ++++----------------------------
+ Source/kwsys/SystemTools.hxx.in | 11 -----------
+ 2 files changed, 4 insertions(+), 39 deletions(-)
+
+diff --git a/Source/kwsys/SystemTools.cxx b/Source/kwsys/SystemTools.cxx
+index d8904fed73..8c4351b63c 100644
+--- a/Source/kwsys/SystemTools.cxx
++++ b/Source/kwsys/SystemTools.cxx
+@@ -96,19 +96,12 @@
  #  if defined(_MSC_VER) && _MSC_VER >= 1800
  #    define KWSYS_WINDOWS_DEPRECATED_GetVersionEx
  #  endif
@@ -20,93 +32,7 @@
  // getpwnam doesn't exist on Windows and Cray Xt3/Catamount
  // same for TIOCGWINSZ
  #if defined(_WIN32) || defined(__LIBCATAMOUNT__) ||                           \
-@@ -1189,7 +1182,7 @@
-   if (filename.empty()) {
-     return false;
-   }
--#if defined(__CYGWIN__)
-+#if 0
-   // Convert filename to native windows path if possible.
-   char winpath[MAX_PATH];
-   if (SystemTools::PathCygwinToWin32(filename.c_str(), winpath)) {
-@@ -1288,7 +1281,7 @@
- #endif
- }
- 
--#ifdef __CYGWIN__
-+#if 0
- bool SystemTools::PathCygwinToWin32(const char* path, char* win32_path)
- {
-   SystemToolsTranslationMap::iterator i =
-@@ -3945,7 +3938,7 @@
- 
- bool SystemTools::FileIsFullPath(const char* in_name, size_t len)
- {
--#if defined(_WIN32) || defined(__CYGWIN__)
-+#if defined(_WIN32)
-   // On Windows, the name must be at least two characters long.
-   if (len < 2) {
-     return false;
-@@ -4546,9 +4539,6 @@
- SystemToolsPathCaseMap* SystemTools::PathCaseMap;
- SystemToolsEnvMap* SystemTools::EnvMap;
- #endif
--#ifdef __CYGWIN__
--SystemToolsTranslationMap* SystemTools::Cyg2Win32Map;
--#endif
- 
- // SystemToolsManager manages the SystemTools singleton.
- // SystemToolsManager should be included in any translation unit
-@@ -4595,9 +4585,6 @@
-   SystemTools::PathCaseMap = new SystemToolsPathCaseMap;
-   SystemTools::EnvMap = new SystemToolsEnvMap;
- #endif
--#ifdef __CYGWIN__
--  SystemTools::Cyg2Win32Map = new SystemToolsTranslationMap;
--#endif
- 
- // Add some special translation paths for unix.  These are not added
- // for windows because drive letters need to be maintained.  Also,
-@@ -4650,9 +4637,6 @@
-   delete SystemTools::PathCaseMap;
-   delete SystemTools::EnvMap;
- #endif
--#ifdef __CYGWIN__
--  delete SystemTools::Cyg2Win32Map;
--#endif
- }
- 
- } // namespace KWSYS_NAMESPACE
---- origsrc/cmake-3.12.0/Source/kwsys/SystemTools.hxx.in	2018-07-17 13:29:00.000000000 +0200
-+++ src/cmake-3.12.0/Source/kwsys/SystemTools.hxx.in	2018-08-09 05:56:51.936698300 +0200
-@@ -336,14 +336,6 @@
-   static int Stat(const char* path, Stat_t* buf);
-   static int Stat(const std::string& path, Stat_t* buf);
- 
--/**
-- * Converts Cygwin path to Win32 path. Uses dictionary container for
-- * caching and calls to cygwin_conv_to_win32_path from Cygwin dll
-- * for actual translation.  Returns true on success, else false.
-- */
--#ifdef __CYGWIN__
--  static bool PathCygwinToWin32(const char* path, char* win32_path);
--#endif
- 
-   /**
-    * Return file length
-@@ -991,9 +983,6 @@
-   static SystemToolsPathCaseMap* PathCaseMap;
-   static SystemToolsEnvMap* EnvMap;
- #endif
--#ifdef __CYGWIN__
--  static SystemToolsTranslationMap* Cyg2Win32Map;
--#endif
-   friend class SystemToolsManager;
- };
- 
---- origsrc/cmake-3.12.0/Source/kwsys/SystemTools.cxx	2018-08-09 06:14:12.758281500 +0200
-+++ src/cmake-3.12.0/Source/kwsys/SystemTools.cxx	2018-08-09 06:35:16.328208000 +0200
-@@ -1152,15 +1152,7 @@
+@@ -1163,15 +1156,7 @@ bool SystemTools::PathExists(const std::string& path)
    if (path.empty()) {
      return false;
    }
@@ -123,3 +49,92 @@
    return (GetFileAttributesW(Encoding::ToWindowsExtendedPath(path).c_str()) !=
            INVALID_FILE_ATTRIBUTES);
  #else
+@@ -1193,7 +1178,7 @@ bool SystemTools::FileExists(const std::string& filename)
+   if (filename.empty()) {
+     return false;
+   }
+-#if defined(__CYGWIN__)
++#if 0
+   // Convert filename to native windows path if possible.
+   char winpath[MAX_PATH];
+   if (SystemTools::PathCygwinToWin32(filename.c_str(), winpath)) {
+@@ -1310,7 +1295,7 @@ int SystemTools::Stat(const std::string& path, SystemTools::Stat_t* buf)
+ #endif
+ }
+ 
+-#ifdef __CYGWIN__
++#if 0
+ bool SystemTools::PathCygwinToWin32(const char* path, char* win32_path)
+ {
+   SystemToolsTranslationMap::iterator i =
+@@ -4055,7 +4040,7 @@ bool SystemTools::FileIsFullPath(const char* in_name)
+ 
+ bool SystemTools::FileIsFullPath(const char* in_name, size_t len)
+ {
+-#if defined(_WIN32) || defined(__CYGWIN__)
++#if defined(_WIN32)
+   // On Windows, the name must be at least two characters long.
+   if (len < 2) {
+     return false;
+@@ -4656,9 +4641,6 @@ SystemToolsTranslationMap* SystemTools::TranslationMap;
+ SystemToolsPathCaseMap* SystemTools::PathCaseMap;
+ SystemToolsEnvMap* SystemTools::EnvMap;
+ #endif
+-#ifdef __CYGWIN__
+-SystemToolsTranslationMap* SystemTools::Cyg2Win32Map;
+-#endif
+ 
+ // SystemToolsManager manages the SystemTools singleton.
+ // SystemToolsManager should be included in any translation unit
+@@ -4705,9 +4687,6 @@ void SystemTools::ClassInitialize()
+   SystemTools::PathCaseMap = new SystemToolsPathCaseMap;
+   SystemTools::EnvMap = new SystemToolsEnvMap;
+ #endif
+-#ifdef __CYGWIN__
+-  SystemTools::Cyg2Win32Map = new SystemToolsTranslationMap;
+-#endif
+ 
+ // Add some special translation paths for unix.  These are not added
+ // for windows because drive letters need to be maintained.  Also,
+@@ -4760,9 +4739,6 @@ void SystemTools::ClassFinalize()
+   delete SystemTools::PathCaseMap;
+   delete SystemTools::EnvMap;
+ #endif
+-#ifdef __CYGWIN__
+-  delete SystemTools::Cyg2Win32Map;
+-#endif
+ }
+ 
+ } // namespace KWSYS_NAMESPACE
+diff --git a/Source/kwsys/SystemTools.hxx.in b/Source/kwsys/SystemTools.hxx.in
+index 1967860ab4..f75a580d86 100644
+--- a/Source/kwsys/SystemTools.hxx.in
++++ b/Source/kwsys/SystemTools.hxx.in
+@@ -334,14 +334,6 @@ public:
+   static int Stat(const char* path, Stat_t* buf);
+   static int Stat(const std::string& path, Stat_t* buf);
+ 
+-/**
+- * Converts Cygwin path to Win32 path. Uses dictionary container for
+- * caching and calls to cygwin_conv_to_win32_path from Cygwin dll
+- * for actual translation.  Returns true on success, else false.
+- */
+-#ifdef __CYGWIN__
+-  static bool PathCygwinToWin32(const char* path, char* win32_path);
+-#endif
+ 
+   /**
+    * Return file length
+@@ -995,9 +987,6 @@ private:
+   static std::string GetActualCaseForPathCached(std::string const& path);
+   static SystemToolsPathCaseMap* PathCaseMap;
+   static SystemToolsEnvMap* EnvMap;
+-#endif
+-#ifdef __CYGWIN__
+-  static SystemToolsTranslationMap* Cyg2Win32Map;
+ #endif
+   friend class SystemToolsManager;
+ };
+-- 
+2.27.0
+
