@@ -8,7 +8,7 @@ Subject: [PATCH] FindOpenGL cygport
  1 file changed, 1 insertion(+), 8 deletions(-)
 
 diff --git a/Modules/FindOpenGL.cmake b/Modules/FindOpenGL.cmake
-index 00db033d3f..7d53358b64 100644
+index 23bb001de6..1dad5338cc 100644
 --- a/Modules/FindOpenGL.cmake
 +++ b/Modules/FindOpenGL.cmake
 @@ -130,14 +130,7 @@ foreach(component ${OpenGL_FIND_COMPONENTS})

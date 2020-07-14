@@ -4,29 +4,15 @@ Date: Tue, 14 Jul 2020 22:33:02 +0900
 Subject: [PATCH] Case sensitivity cygport
 
 ---
- Source/cmFileCommand.cxx    | 2 +-
  Source/cmInstallCommand.cxx | 2 +-
  Source/kwsys/Glob.cxx       | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Source/cmFileCommand.cxx b/Source/cmFileCommand.cxx
-index 0f911c1700..df97c8df5a 100644
---- a/Source/cmFileCommand.cxx
-+++ b/Source/cmFileCommand.cxx
-@@ -1120,7 +1120,7 @@ protected:
-   MatchProperties CollectMatchProperties(const char* file)
-   {
- // Match rules are case-insensitive on some platforms.
--#if defined(_WIN32) || defined(__APPLE__) || defined(__CYGWIN__)
-+#if defined(_WIN32) || defined(__APPLE__)
-     std::string lower = cmSystemTools::LowerCase(file);
-     const char* file_to_match = lower.c_str();
- #else
 diff --git a/Source/cmInstallCommand.cxx b/Source/cmInstallCommand.cxx
-index 20d1a31340..ba700e973c 100644
+index dba4bbb301..43f39e10e0 100644
 --- a/Source/cmInstallCommand.cxx
 +++ b/Source/cmInstallCommand.cxx
-@@ -1170,7 +1170,7 @@ bool cmInstallCommand::HandleDirectoryMode(
+@@ -1171,7 +1171,7 @@ bool cmInstallCommand::HandleDirectoryMode(
      } else if (doing == DoingRegex) {
        literal_args += " REGEX \"";
  // Match rules are case-insensitive on some platforms.
@@ -36,7 +22,7 @@ index 20d1a31340..ba700e973c 100644
  #else
        std::string regex = args[i];
 diff --git a/Source/kwsys/Glob.cxx b/Source/kwsys/Glob.cxx
-index 6952d24ae6..5a0b254416 100644
+index 829c1389f9..acbb781a92 100644
 --- a/Source/kwsys/Glob.cxx
 +++ b/Source/kwsys/Glob.cxx
 @@ -27,7 +27,7 @@

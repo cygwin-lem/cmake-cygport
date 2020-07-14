@@ -8,10 +8,10 @@ Subject: [PATCH] SystemInformation cpuinfo cygport
  1 file changed, 17 insertions(+), 15 deletions(-)
 
 diff --git a/Source/kwsys/SystemInformation.cxx b/Source/kwsys/SystemInformation.cxx
-index f323efc4b0..7abe790877 100644
+index 7dc6cf4b02..af02f5fb7c 100644
 --- a/Source/kwsys/SystemInformation.cxx
 +++ b/Source/kwsys/SystemInformation.cxx
-@@ -875,7 +875,7 @@ void SystemInformation::RunMemoryCheck()
+@@ -879,7 +879,7 @@ void SystemInformation::RunMemoryCheck()
  // Hide implementation details in an anonymous namespace.
  namespace {
  // *****************************************************************************
@@ -20,7 +20,7 @@ index f323efc4b0..7abe790877 100644
  int LoadLines(FILE* file, std::vector<std::string>& lines)
  {
    // Load each line in the given file into a the vector.
-@@ -905,7 +905,7 @@ int LoadLines(FILE* file, std::vector<std::string>& lines)
+@@ -909,7 +909,7 @@ int LoadLines(FILE* file, std::vector<std::string>& lines)
    return nRead;
  }
  
@@ -29,7 +29,7 @@ index f323efc4b0..7abe790877 100644
  // *****************************************************************************
  int LoadLines(const char* fileName, std::vector<std::string>& lines)
  {
-@@ -938,7 +938,7 @@ int NameValue(std::vector<std::string> const& lines, std::string const& name,
+@@ -942,7 +942,7 @@ int NameValue(std::vector<std::string> const& lines, std::string const& name,
  }
  #endif
  
@@ -38,7 +38,7 @@ index f323efc4b0..7abe790877 100644
  // ****************************************************************************
  template <typename T>
  int GetFieldsFromFile(const char* fileName, const char** fieldNames, T* values)
-@@ -3400,7 +3400,6 @@ bool SystemInformationImplementation::RetreiveInformationFromCpuInfoFile()
+@@ -3412,7 +3412,6 @@ bool SystemInformationImplementation::RetreiveInformationFromCpuInfoFile()
      pos = buffer.find("processor\t", pos + 1);
    }
  
@@ -46,7 +46,7 @@ index f323efc4b0..7abe790877 100644
    // Count sockets.
    std::set<int> PhysicalIDs;
    std::string idc = this->ExtractValueFromCpuInfoFile(buffer, "physical id");
-@@ -3421,14 +3420,6 @@ bool SystemInformationImplementation::RetreiveInformationFromCpuInfoFile()
+@@ -3433,14 +3432,6 @@ bool SystemInformationImplementation::RetreiveInformationFromCpuInfoFile()
    this->NumberOfPhysicalCPU =
      NumberOfCoresPerSocket * (unsigned int)NumberOfSockets;
  
@@ -61,7 +61,7 @@ index f323efc4b0..7abe790877 100644
    // gotta have one, and if this is 0 then we get a / by 0n
    // better to have a bad answer than a crash
    if (this->NumberOfPhysicalCPU <= 0) {
-@@ -3606,7 +3597,7 @@ SystemInformationImplementation::GetHostMemoryTotal()
+@@ -3618,7 +3609,7 @@ SystemInformationImplementation::GetHostMemoryTotal()
    GlobalMemoryStatusEx(&statex);
    return statex.ullTotalPhys / 1024;
  #  endif
@@ -70,7 +70,7 @@ index f323efc4b0..7abe790877 100644
    SystemInformation::LongLong memTotal = 0;
    int ierr = GetFieldFromFile("/proc/meminfo", "MemTotal:", memTotal);
    if (ierr) {
-@@ -3731,6 +3722,16 @@ SystemInformationImplementation::GetHostMemoryUsed()
+@@ -3743,6 +3734,16 @@ SystemInformationImplementation::GetHostMemoryUsed()
    GlobalMemoryStatusEx(&statex);
    return (statex.ullTotalPhys - statex.ullAvailPhys) / 1024;
  #  endif
@@ -87,7 +87,7 @@ index f323efc4b0..7abe790877 100644
  #elif defined(__linux)
    // First try to use MemAvailable, but it only works on newer kernels
    const char* names2[3] = { "MemTotal:", "MemAvailable:", NULL };
-@@ -3795,7 +3796,7 @@ SystemInformationImplementation::GetProcMemoryUsed()
+@@ -3807,7 +3808,7 @@ SystemInformationImplementation::GetProcMemoryUsed()
      return -2;
    }
    return pmc.WorkingSetSize / 1024;
@@ -96,7 +96,7 @@ index f323efc4b0..7abe790877 100644
    SystemInformation::LongLong memUsed = 0;
    int ierr = GetFieldFromFile("/proc/self/status", "VmRSS:", memUsed);
    if (ierr) {
-@@ -3872,7 +3873,8 @@ SystemInformation::LongLong SystemInformationImplementation::GetProcessId()
+@@ -3884,7 +3885,8 @@ SystemInformation::LongLong SystemInformationImplementation::GetProcessId()
  #if defined(_WIN32)
    return GetCurrentProcessId();
  #elif defined(__linux) || defined(__APPLE__) || defined(__OpenBSD__) ||       \
