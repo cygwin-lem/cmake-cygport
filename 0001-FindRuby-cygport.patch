@@ -1,0 +1,24 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Lemures Lemniscati <lemures.lemniscati@gmail.com>
+Date: Tue, 14 Jul 2020 22:33:01 +0900
+Subject: [PATCH] FindRuby cygport
+
+---
+ Modules/FindRuby.cmake | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Modules/FindRuby.cmake b/Modules/FindRuby.cmake
+index 58debdd2ae..8e5c2d887f 100644
+--- a/Modules/FindRuby.cmake
++++ b/Modules/FindRuby.cmake
+@@ -213,6 +213,7 @@ if( "${Ruby_FIND_VERSION_SHORT_NODOT}" GREATER 18  OR  "${_RUBY_VERSION_SHORT_NO
+      NAMES ruby/config.h  config.h
+      HINTS
+      ${RUBY_HDR_DIR}/${RUBY_ARCH}
++     ${RUBY_HDR_DIR}
+      ${RUBY_ARCH_DIR}
+      ${RUBY_ARCHHDR_DIR}
+      )
+-- 
+2.27.0
+

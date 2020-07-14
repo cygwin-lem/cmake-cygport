@@ -1,6 +1,17 @@
---- origsrc/cmake-3.14.5/Source/kwsys/SystemInformation.cxx	2019-05-31 15:31:25.000000000 +0200
-+++ Source/kwsys/SystemInformation.cxx	2019-06-02 14:42:45.891499900 +0200
-@@ -875,7 +875,7 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Lemures Lemniscati <lemures.lemniscati@gmail.com>
+Date: Tue, 14 Jul 2020 22:33:06 +0900
+Subject: [PATCH] SystemInformation cpuinfo cygport
+
+---
+ Source/kwsys/SystemInformation.cxx | 52 +++++++++---------------------
+ 1 file changed, 16 insertions(+), 36 deletions(-)
+
+diff --git a/Source/kwsys/SystemInformation.cxx b/Source/kwsys/SystemInformation.cxx
+index f323efc4b0..6c1f7583f9 100644
+--- a/Source/kwsys/SystemInformation.cxx
++++ b/Source/kwsys/SystemInformation.cxx
+@@ -875,7 +875,7 @@ void SystemInformation::RunMemoryCheck()
  // Hide implementation details in an anonymous namespace.
  namespace {
  // *****************************************************************************
@@ -9,7 +20,7 @@
  int LoadLines(FILE* file, std::vector<std::string>& lines)
  {
    // Load each line in the given file into a the vector.
-@@ -905,7 +905,7 @@
+@@ -905,7 +905,7 @@ int LoadLines(FILE* file, std::vector<std::string>& lines)
    return nRead;
  }
  
@@ -18,7 +29,7 @@
  // *****************************************************************************
  int LoadLines(const char* fileName, std::vector<std::string>& lines)
  {
-@@ -938,7 +938,7 @@
+@@ -938,7 +938,7 @@ int NameValue(std::vector<std::string> const& lines, std::string const& name,
  }
  #endif
  
@@ -27,7 +38,7 @@
  // ****************************************************************************
  template <typename T>
  int GetFieldsFromFile(const char* fileName, const char** fieldNames, T* values)
-@@ -3400,7 +3400,6 @@
+@@ -3400,7 +3400,6 @@ bool SystemInformationImplementation::RetreiveInformationFromCpuInfoFile()
      pos = buffer.find("processor\t", pos + 1);
    }
  
@@ -35,7 +46,7 @@
    // Count sockets.
    std::set<int> PhysicalIDs;
    std::string idc = this->ExtractValueFromCpuInfoFile(buffer, "physical id");
-@@ -3421,14 +3420,6 @@
+@@ -3421,14 +3420,6 @@ bool SystemInformationImplementation::RetreiveInformationFromCpuInfoFile()
    this->NumberOfPhysicalCPU =
      NumberOfCoresPerSocket * (unsigned int)NumberOfSockets;
  
@@ -50,7 +61,7 @@
    // gotta have one, and if this is 0 then we get a / by 0n
    // better to have a bad answer than a crash
    if (this->NumberOfPhysicalCPU <= 0) {
-@@ -3606,7 +3597,7 @@
+@@ -3606,7 +3597,7 @@ SystemInformationImplementation::GetHostMemoryTotal()
    GlobalMemoryStatusEx(&statex);
    return statex.ullTotalPhys / 1024;
  #  endif
@@ -59,7 +70,7 @@
    SystemInformation::LongLong memTotal = 0;
    int ierr = GetFieldFromFile("/proc/meminfo", "MemTotal:", memTotal);
    if (ierr) {
-@@ -3731,29 +3722,17 @@
+@@ -3731,29 +3722,17 @@ SystemInformationImplementation::GetHostMemoryUsed()
    GlobalMemoryStatusEx(&statex);
    return (statex.ullTotalPhys - statex.ullAvailPhys) / 1024;
  #  endif
@@ -98,7 +109,7 @@
  #elif defined(__APPLE__)
    SystemInformation::LongLong psz = getpagesize();
    if (psz < 1) {
-@@ -3795,7 +3774,7 @@
+@@ -3795,7 +3774,7 @@ SystemInformationImplementation::GetProcMemoryUsed()
      return -2;
    }
    return pmc.WorkingSetSize / 1024;
@@ -107,7 +118,7 @@
    SystemInformation::LongLong memUsed = 0;
    int ierr = GetFieldFromFile("/proc/self/status", "VmRSS:", memUsed);
    if (ierr) {
-@@ -3872,7 +3851,8 @@
+@@ -3872,7 +3851,8 @@ SystemInformation::LongLong SystemInformationImplementation::GetProcessId()
  #if defined(_WIN32)
    return GetCurrentProcessId();
  #elif defined(__linux) || defined(__APPLE__) || defined(__OpenBSD__) ||       \
@@ -117,3 +128,6 @@
    return getpid();
  #else
    return -1;
+-- 
+2.27.0
+

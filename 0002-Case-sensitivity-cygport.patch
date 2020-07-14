@@ -1,6 +1,19 @@
---- origsrc/cmake-3.12.0/Source/cmFileCommand.cxx	2018-07-17 13:29:00.000000000 +0200
-+++ Source/cmFileCommand.cxx	2018-08-09 05:20:44.965651400 +0200
-@@ -1108,7 +1108,7 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Lemures Lemniscati <lemures.lemniscati@gmail.com>
+Date: Tue, 14 Jul 2020 22:33:02 +0900
+Subject: [PATCH] Case sensitivity cygport
+
+---
+ Source/cmFileCommand.cxx    | 2 +-
+ Source/cmInstallCommand.cxx | 2 +-
+ Source/kwsys/Glob.cxx       | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/Source/cmFileCommand.cxx b/Source/cmFileCommand.cxx
+index 0f911c1700..df97c8df5a 100644
+--- a/Source/cmFileCommand.cxx
++++ b/Source/cmFileCommand.cxx
+@@ -1120,7 +1120,7 @@ protected:
    MatchProperties CollectMatchProperties(const char* file)
    {
  // Match rules are case-insensitive on some platforms.
@@ -9,9 +22,11 @@
      std::string lower = cmSystemTools::LowerCase(file);
      const char* file_to_match = lower.c_str();
  #else
---- origsrc/cmake-3.12.0/Source/cmInstallCommand.cxx	2018-07-17 13:29:00.000000000 +0200
-+++ src/cmake-3.12.0/Source/cmInstallCommand.cxx	2018-08-09 05:20:44.996894200 +0200
-@@ -1114,7 +1114,7 @@
+diff --git a/Source/cmInstallCommand.cxx b/Source/cmInstallCommand.cxx
+index 20d1a31340..ba700e973c 100644
+--- a/Source/cmInstallCommand.cxx
++++ b/Source/cmInstallCommand.cxx
+@@ -1170,7 +1170,7 @@ bool cmInstallCommand::HandleDirectoryMode(
      } else if (doing == DoingRegex) {
        literal_args += " REGEX \"";
  // Match rules are case-insensitive on some platforms.
@@ -20,8 +35,10 @@
        std::string regex = cmSystemTools::LowerCase(args[i]);
  #else
        std::string regex = args[i];
---- origsrc/cmake-3.12.0/Source/kwsys/Glob.cxx	2018-07-17 13:29:00.000000000 +0200
-+++ src/cmake-3.12.0/Source/kwsys/Glob.cxx	2018-08-09 05:22:50.125583200 +0200
+diff --git a/Source/kwsys/Glob.cxx b/Source/kwsys/Glob.cxx
+index 6952d24ae6..22cdb6b9cb 100644
+--- a/Source/kwsys/Glob.cxx
++++ b/Source/kwsys/Glob.cxx
 @@ -27,7 +27,7 @@
  #include <stdio.h>
  #include <string.h>
@@ -31,3 +48,6 @@
  // On Windows and Apple, no difference between lower and upper case
  #  define KWSYS_GLOB_CASE_INDEPENDENT
  #endif
+-- 
+2.27.0
+
