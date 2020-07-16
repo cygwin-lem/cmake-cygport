@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lemures Lemniscati <lemures.lemniscati@gmail.com>
-Date: Tue, 14 Jul 2020 22:33:03 +0900
+Date: Thu, 16 Jul 2020 22:33:03 +0900
 Subject: [PATCH] SystemTools cygwin paths cygport
 
 ---
@@ -9,10 +9,10 @@ Subject: [PATCH] SystemTools cygwin paths cygport
  2 files changed, 4 insertions(+), 27 deletions(-)
 
 diff --git a/Source/kwsys/SystemTools.cxx b/Source/kwsys/SystemTools.cxx
-index d27081b8c6..e507b3403b 100644
+index 25705ea287..c333df98ec 100644
 --- a/Source/kwsys/SystemTools.cxx
 +++ b/Source/kwsys/SystemTools.cxx
-@@ -97,19 +97,12 @@
+@@ -96,19 +96,12 @@
  #  if defined(_MSC_VER) && _MSC_VER >= 1800
  #    define KWSYS_WINDOWS_DEPRECATED_GetVersionEx
  #  endif
@@ -32,7 +32,7 @@ index d27081b8c6..e507b3403b 100644
  // getpwnam doesn't exist on Windows and Cray Xt3/Catamount
  // same for TIOCGWINSZ
  #if defined(_WIN32) || defined(__LIBCATAMOUNT__) ||                           \
-@@ -1298,15 +1291,7 @@ bool SystemTools::PathExists(const std::string& path)
+@@ -1290,15 +1283,7 @@ bool SystemTools::PathExists(const std::string& path)
    if (path.empty()) {
      return false;
    }
@@ -49,7 +49,7 @@ index d27081b8c6..e507b3403b 100644
    return (GetFileAttributesW(Encoding::ToWindowsExtendedPath(path).c_str()) !=
            INVALID_FILE_ATTRIBUTES);
  #else
-@@ -1328,7 +1313,7 @@ bool SystemTools::FileExists(const std::string& filename)
+@@ -1320,7 +1305,7 @@ bool SystemTools::FileExists(const std::string& filename)
    if (filename.empty()) {
      return false;
    }
@@ -58,7 +58,7 @@ index d27081b8c6..e507b3403b 100644
    // Convert filename to native windows path if possible.
    char winpath[MAX_PATH];
    if (SystemTools::PathCygwinToWin32(filename.c_str(), winpath)) {
-@@ -1445,7 +1430,7 @@ int SystemTools::Stat(const std::string& path, SystemTools::Stat_t* buf)
+@@ -1433,7 +1418,7 @@ int SystemTools::Stat(const std::string& path, SystemTools::Stat_t* buf)
  #endif
  }
  
@@ -66,8 +66,8 @@ index d27081b8c6..e507b3403b 100644
 +#if 0
  bool SystemTools::PathCygwinToWin32(const char* path, char* win32_path)
  {
-   auto itr = SystemTools::Statics->Cyg2Win32Map.find(path);
-@@ -3962,7 +3947,7 @@ bool SystemTools::FileIsFullPath(const char* in_name)
+   auto itr = SystemToolsStatics->Cyg2Win32Map.find(path);
+@@ -3969,7 +3954,7 @@ bool SystemTools::FileIsFullPath(const char* in_name)
  
  bool SystemToolsStatic::FileIsFullPath(const char* in_name, size_t len)
  {
@@ -77,10 +77,10 @@ index d27081b8c6..e507b3403b 100644
    if (len < 2) {
      return false;
 diff --git a/Source/kwsys/SystemTools.hxx.in b/Source/kwsys/SystemTools.hxx.in
-index c4ab9d4f36..de4fb492f2 100644
+index 5dbb726a08..579a88c34e 100644
 --- a/Source/kwsys/SystemTools.hxx.in
 +++ b/Source/kwsys/SystemTools.hxx.in
-@@ -335,14 +335,6 @@ public:
+@@ -331,14 +331,6 @@ public:
    static int Stat(const char* path, Stat_t* buf);
    static int Stat(const std::string& path, Stat_t* buf);
  
