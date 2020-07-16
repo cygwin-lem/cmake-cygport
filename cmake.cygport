@@ -1,7 +1,7 @@
 inherit emacs qt5
 
 NAME="cmake"
-VERSION=3.17.3
+VERSION=3.18.0
 RELEASE=1
 CATEGORY="Devel"
 SUMMARY="Cross-platform makefile generation system"
@@ -15,7 +15,7 @@ HOMEPAGE="http://www.cmake.org/"
 #SRC_URI="https://github.com/Kitware/CMake/releases/download/v${VERSION}/cmake-${VERSION}.tar.gz"
 
 GIT_REPO="https://github.com/Kitware/CMake"
-GIT_COMMIT="e647949539f4704a00eddac2357d59ceeb8bc0ca" # v3.17.3
+GIT_COMMIT="d421274e3e11a0e6480358faa8a8e5cf48d7b3c2" # v3.18.0
 GIT_BASENAME="${GIT_REPO##*/}"
 SRC_URI="${GIT_REPO}/archive/${GIT_COMMIT}.tar.gz"
 SRC_DIR="${GIT_BASENAME}-${GIT_COMMIT}"
@@ -48,7 +48,7 @@ PATCH_URI="
 0007-FindTclsh-cygport.patch
 "
 
-PKG_NAMES="${NAME} ${NAME}-gui ${NAME}-doc emacs-cmake"
+PKG_NAMES="${NAME} ${NAME}-gui ${NAME}-doc emacs-cmake vim-cmake bash-completion-cmake"
 cmake_CONTENTS="--exclude=cmake-gui.* usr/bin/ usr/share/aclocal/
                 usr/share/cmake*/ usr/share/man/"
 cmake_gui_SUMMARY="${SUMMARY} (GUI)"
@@ -63,6 +63,14 @@ emacs_cmake_CATEGORY="Editors"
 emacs_cmake_SUMMARY="${SUMMARY} (Emacs mode)"
 emacs_cmake_REQUIRES=${NAME}
 emacs_cmake_CONTENTS="usr/share/emacs/"
+vim_cmake_CATEGORY="Editors"
+vim_cmake_SUMMARY="${SUMMARY} (vim)"
+vim_cmake_REQUIRES=${NAME}
+vim_cmake_CONTENTS="usr/share/vim/"
+bash_completion_cmake_CATEGORY="Shells"
+bash_completion_cmake_SUMMARY="${SUMMARY} (bash-completion)"
+bash_completion_cmake_REQUIRES=${NAME}
+bash_completion_cmake_CONTENTS="usr/share/bash-completion/"
 
 src_compile() {
 	cd ${B}
@@ -77,11 +85,4 @@ src_compile() {
 		 --sphinx-man --sphinx-html \
 		|| error "bootstrap failed"
 	cygmake
-}
-
-src_install() {
-	cd ${B}
-	cyginstall
-
-	doemacs ${D}/usr/share/${NAME}-${VERSION}/editors/emacs/cmake-mode.el
 }
