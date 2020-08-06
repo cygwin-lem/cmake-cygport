@@ -1,7 +1,7 @@
 inherit emacs qt5
 
 NAME="cmake"
-VERSION=3.18.0
+VERSION=3.18.1p610
 RELEASE=1
 CATEGORY="Devel"
 SUMMARY="Cross-platform makefile generation system"
@@ -14,10 +14,13 @@ code generation, and template instantiation."
 HOMEPAGE="http://www.cmake.org/"
 #SRC_URI="https://github.com/Kitware/CMake/releases/download/v${VERSION}/cmake-${VERSION}.tar.gz"
 
-GIT_REPO="https://github.com/Kitware/CMake"
-GIT_COMMIT="d421274e3e11a0e6480358faa8a8e5cf48d7b3c2" # v3.18.0
+#GIT_REPO="https://github.com/Kitware/CMake"
+#GIT_REPO="https://gitlab.kitware.com/Kitware/CMake"
+GIT_REPO="https://gitlab.kitware.com/lemniscati/cmake"
+GIT_COMMIT="ecc19617686f29429e9b4dd10ff2bbc8e8572d5e" # v3.18.1p610
 GIT_BASENAME="${GIT_REPO##*/}"
-SRC_URI="${GIT_REPO}/archive/${GIT_COMMIT}.tar.gz"
+#SRC_URI="${GIT_REPO}/archive/${GIT_COMMIT}.tar.gz"   # GitHub
+SRC_URI="${GIT_REPO}/-/archive/${GIT_COMMIT}/${NAME}-${GIT_COMMIT}.tar.bz2" # GitLab
 SRC_DIR="${GIT_BASENAME}-${GIT_COMMIT}"
 
 BUILD_REQUIRES="\
@@ -39,24 +42,26 @@ BUILD_REQUIRES="\
 "
 
 PATCH_URI="
-0001-FindRuby-cygport.patch
-0002-Case-sensitivity-cygport.patch
-0003-SystemTools-cygwin-paths-cygport.patch
-0004-FindPerlLibs-cygport.patch
-0005-FindOpenGL-cygport.patch
-0006-SystemInformation-cpuinfo-cygport.patch
-0007-FindTclsh-cygport.patch
 "
 
 PKG_NAMES="${NAME} ${NAME}-gui ${NAME}-doc emacs-cmake vim-cmake bash-completion-cmake"
-cmake_CONTENTS="--exclude=cmake-gui.* usr/bin/ usr/share/aclocal/
-                usr/share/cmake*/ usr/share/man/"
+cmake_CONTENTS="
+  --exclude=cmake-gui.*
+  usr/bin/
+  usr/share/aclocal/
+  usr/share/cmake*/
+  usr/share/man/
+"
 cmake_gui_SUMMARY="${SUMMARY} (GUI)"
 cmake_gui_REQUIRES=${NAME}
-cmake_gui_CONTENTS="etc/ usr/bin/cmake-gui.exe usr/share/applications/
-                    usr/share/man/man1/cmake-gui.*
-                    usr/share/cmake*/Help/manual/cmake-gui.1.rst
-                    usr/share/icons/ usr/share/mime/"
+cmake_gui_CONTENTS="
+  etc/
+  usr/bin/cmake-gui.exe
+  usr/share/applications/
+  usr/share/man/man1/cmake-gui.*
+  usr/share/cmake*/Help/manual/cmake-gui.1.rst
+  usr/share/icons/ usr/share/mime/
+"
 cmake_doc_SUMMARY="${SUMMARY} (documentation)"
 cmake_doc_CONTENTS="usr/share/doc/"
 emacs_cmake_CATEGORY="Editors"
